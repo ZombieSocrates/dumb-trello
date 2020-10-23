@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>Dumb Trello 🎉</h1>
     <TaskList/>
   </div>
 </template>
