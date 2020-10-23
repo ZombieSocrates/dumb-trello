@@ -1,7 +1,13 @@
 <template>
   <div class='list-container'>
-    <h1 class='list-title'>{{ currentTitle }}</h1>
-    <h3 class='list-description'>{{ currentDescrip }} </h3>
+    <h1 class='list-title' v-if=!editingTitle @click=revealTitle>{{ currentTitle }}</h1>
+      <form v-else id='edit-title' @submit=updateTitle>
+        <input id='new-title' type='text' :placeholder='currentTitle'>
+      </form>
+    <h3 class='list-description' v-if=!editingDescription @click=revealDescription>{{ currentDescrip }}</h3>
+      <form v-else id='edit-descrip' @submit=updateDescription>
+        <input id='new-descrip' type='text' :placeholder='currentDescrip'>
+      </form>
     <div class='task-container' v-if=tasks.length>
     </div>
     <p v-else><i>No Tasks Yet!</i></p>
@@ -26,7 +32,9 @@
       return {
         tasks: [],
         title: '',
-        description: ''
+        editingTitle: false,
+        description: '',
+        editingDescription: false
       }
     },
     computed: {
@@ -42,11 +50,30 @@
         }
         return this.description
       }
+    },
+    methods: {
+      revealTitle: function () {
+        this.editingTitle = true
+      },
+      updateTitle: function () {
+        const newTitle = document.getElementById('new-title').value
+        this.title = newTitle
+        this.editingTitle = false
+      },
+      revealDescription: function () {
+        this.editingDescription = true
+      },
+      updateDescription: function () {
+        const newDescrip = document.getElementById('new-descrip').value
+        this.description = newDescrip
+        this.editingDescription = false
+      }
     }
   }
 </script>
 
 <style>
+
 .list-container {
   height: 100%;
   position: relative;
