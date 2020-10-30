@@ -9,6 +9,7 @@
         <input id='new-descrip' type='text' :placeholder='currentDescrip'>
       </form>
     <div class='task-container' v-if=tasks.length>
+      <TaskCard v-for='(task, index) in tasks' :key=index :baseTitle='task.title' :baseDescription='task.description'></TaskCard>
     </div>
     <p v-else><i>No Tasks Yet!</i></p>
   <button class='task-button'>Add Another Task</button>
@@ -16,8 +17,13 @@
 </template>
 
 <script>
+  import TaskCard from './TaskCard.vue'
+
   export default {
     name: 'TaskList',
+    components: {
+      TaskCard
+    },
     props: {
       baseTitle: {
         type: String,
@@ -30,7 +36,10 @@
     },
     data: function () {
       return {
-        tasks: [],
+        tasks: [
+          {title:'Go to grocery store',description:'Buy eggs'},
+          {title:'Cook dinner',description:'Use those eggs!'}
+        ],
         title: '',
         editingTitle: false,
         description: '',
@@ -90,6 +99,12 @@
 
 .list-description:hover {
   cursor: pointer;
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .task-button {
