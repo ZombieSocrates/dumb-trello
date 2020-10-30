@@ -1,7 +1,13 @@
 <template>
   <div class='task-card'>
-    <h4 class='card-title'> {{ currentTitle }}</h4>
-    <p class='card-description'> {{ currentDescrip }} </p>
+    <h4 class='card-title' v-if=!editingTitle @click=revealTitle> {{ currentTitle }}</h4>
+      <form v-else id='edit-title' @submit=updateTitle>
+        <input id='new-title' type='text' :placeholder='currentTitle'>
+      </form>
+    <p class='card-description' v-if=!editingDescription @click=revealDescription> {{ currentDescrip }} </p>
+    <form v-else id='edit-descrip' @submit=updateDescription>
+        <input id='new-descrip' type='text' :placeholder='currentDescrip'>
+    </form>
   </div>
 </template>
 
@@ -21,7 +27,9 @@
     data: function () {
       return {
         title: '',
+        editingTitle: false,
         description: '',
+        editingDescription: false,
         focused: false
       }
     },
@@ -37,6 +45,24 @@
           return this.baseDescription
         }
         return this.description
+      }
+    },
+    methods: {
+      revealTitle: function () {
+        this.editingTitle = true
+      },
+      updateTitle: function () {
+        const newTitle = document.getElementById('new-title').value
+        this.title = newTitle
+        this.editingTitle = false
+      },
+      revealDescription: function () {
+        this.editingDescription = true
+      },
+      updateDescription: function () {
+        const newDescrip = document.getElementById('new-descrip').value
+        this.description = newDescrip
+        this.editingDescription = false
       }
     }
   }
