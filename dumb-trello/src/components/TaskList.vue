@@ -9,10 +9,10 @@
         <input id='new-descrip' type='text' :placeholder='currentDescrip'>
       </form>
     <div class='task-container' v-if=tasks.length>
-      <TaskCard v-for='(task, index) in tasks' :key=index :baseTitle='task.title' :baseDescription='task.description'></TaskCard>
+      <TaskCard v-for='task in tasks' :key=task.ID :title='task.title' :description='task.description'></TaskCard>
     </div>
     <p v-else><i>No Tasks Yet!</i></p>
-  <button class='task-button'>Add Another Task</button>
+  <button class='task-button' @click=addTask>Add Another Task</button>
   </div>
 </template>
 
@@ -36,10 +36,7 @@
     },
     data: function () {
       return {
-        tasks: [
-          {title:'Go to grocery store',description:'Buy eggs'},
-          {title:'Cook dinner',description:'Use those eggs!'}
-        ],
+        tasks: [],
         title: '',
         editingTitle: false,
         description: '',
@@ -61,6 +58,14 @@
       }
     },
     methods: {
+      addTask: function () {
+        const blankTask = {
+          ID: Math.floor(Math.random() * 1600),
+          title: '',
+          description: ''
+        }
+        this.tasks.push(blankTask)
+      },
       revealTitle: function () {
         this.editingTitle = true
       },
